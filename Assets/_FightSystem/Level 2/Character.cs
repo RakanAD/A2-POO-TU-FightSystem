@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace _2023_GC_A2_Partiel_POO.Level_2
@@ -11,7 +12,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <summary>
         /// Stat de base, HP
         /// </summary>
-        int _baseHealth;
+        [SerializeField] int _baseHealth;
         /// <summary>
         /// Stat de base, ATK
         /// </summary>
@@ -19,7 +20,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <summary>
         /// Stat de base, DEF
         /// </summary>
-        int _baseDefense;
+        [SerializeField] int _baseDefense;
         /// <summary>
         /// Stat de base, SPE
         /// </summary>
@@ -82,7 +83,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// </summary>
         public StatusEffect CurrentStatus { get; private set; }
 
-        public bool IsAlive => throw new NotImplementedException();
+        public bool IsAlive = true;
 
 
         /// <summary>
@@ -94,7 +95,23 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <exception cref="NotImplementedException"></exception>
         public void ReceiveAttack(Skill s)
         {
-            throw new NotImplementedException();
+            int _totalDamage = s.Power - _baseDefense;
+            currentHealth -= _totalDamage;
+
+            switch (s.Status)
+            {
+                case StatusPotential.BURN:
+                    break;
+                case StatusPotential.SLEEP:
+                    break;
+            }
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                IsAlive = false; 
+            }
+            
         }
         /// <summary>
         /// Equipe un objet au personnage
@@ -124,6 +141,8 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
             Speed -= CurrentEquipment.BonusSpeed;
             CurrentEquipment = null;
         }
+
+
 
     }
 }
