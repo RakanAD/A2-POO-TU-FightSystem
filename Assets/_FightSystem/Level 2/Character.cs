@@ -1,16 +1,18 @@
 ﻿using System;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace _2023_GC_A2_Partiel_POO.Level_2
 {
     /// <summary>
     /// Définition d'un personnage
     /// </summary>
-    public class Character
+    public class Character 
     {
         /// <summary>
         /// Stat de base, HP
         /// </summary>
-        int _baseHealth;
+        [SerializeField] int _baseHealth;
         /// <summary>
         /// Stat de base, ATK
         /// </summary>
@@ -18,7 +20,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <summary>
         /// Stat de base, DEF
         /// </summary>
-        int _baseDefense;
+        [SerializeField] int _baseDefense;
         /// <summary>
         /// Stat de base, SPE
         /// </summary>
@@ -27,6 +29,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// Type de base
         /// </summary>
         TYPE _baseType;
+        int currentHealth;
 
         public Character(int baseHealth, int baseAttack, int baseDefense, int baseSpeed, TYPE baseType)
         {
@@ -35,51 +38,41 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
             _baseDefense = baseDefense;
             _baseSpeed = baseSpeed;
             _baseType = baseType;
+            currentHealth = _baseHealth;
+            
         }
         /// <summary>
         /// HP actuel du personnage
         /// </summary>
-        public int CurrentHealth { get; private set; }
-        public TYPE BaseType { get => _baseType;}
+        public int CurrentHealth { get => currentHealth; }
+        public TYPE BaseType { get => _baseType; private set => _baseType = TYPE.NORMAL; }
         /// <summary>
         /// HPMax, prendre en compte base et equipement potentiel
         /// </summary>
         public int MaxHealth
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseHealth;
         }
         /// <summary>
         /// ATK, prendre en compte base et equipement potentiel
         /// </summary>
         public int Attack
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseAttack; private set => _baseAttack = value;
         }
         /// <summary>
         /// DEF, prendre en compte base et equipement potentiel
         /// </summary>
         public int Defense
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseDefense; private set => _baseDefense = value;
         }
         /// <summary>
         /// SPE, prendre en compte base et equipement potentiel
         /// </summary>
         public int Speed
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseSpeed; private set => _baseSpeed = value;
         }
         /// <summary>
         /// Equipement unique du personnage
@@ -90,7 +83,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// </summary>
         public StatusEffect CurrentStatus { get; private set; }
 
-        public bool IsAlive => throw new NotImplementedException();
+        public bool IsAlive = true;
 
 
         /// <summary>
@@ -102,7 +95,23 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <exception cref="NotImplementedException"></exception>
         public void ReceiveAttack(Skill s)
         {
-            throw new NotImplementedException();
+            int _totalDamage = s.Power - _baseDefense;
+            currentHealth -= _totalDamage;
+
+            switch (s.Status)
+            {
+                case StatusPotential.BURN:
+                    break;
+                case StatusPotential.SLEEP:
+                    break;
+            }
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                IsAlive = false; 
+            }
+            
         }
         /// <summary>
         /// Equipe un objet au personnage
@@ -110,16 +119,30 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// <param name="newEquipment">equipement a appliquer</param>
         /// <exception cref="ArgumentNullException">Si equipement est null</exception>
         public void Equip(Equipment newEquipment)
-        {
-            throw new NotImplementedException();
+        {            
+            if(newEquipment == null )
+            {
+                throw new ArgumentNullException();
+            }
+             CurrentEquipment = newEquipment;
+             _baseHealth += CurrentEquipment.BonusHealth;
+             Attack += CurrentEquipment.BonusAttack;
+             Defense += CurrentEquipment.BonusDefense;
+             Speed += CurrentEquipment.BonusSpeed;
         }
         /// <summary>
         /// Desequipe l'objet en cours au personnage
         /// </summary>
         public void Unequip()
         {
-            throw new NotImplementedException();
+            _baseHealth -= CurrentEquipment.BonusHealth;
+            Attack -= CurrentEquipment.BonusAttack;
+            Defense -= CurrentEquipment.BonusDefense;
+            Speed -= CurrentEquipment.BonusSpeed;
+            CurrentEquipment = null;
         }
+
+
 
     }
 }
