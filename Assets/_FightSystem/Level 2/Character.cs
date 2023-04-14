@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.Assertions;
 
 namespace _2023_GC_A2_Partiel_POO.Level_2
 {
@@ -27,6 +28,7 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
         /// Type de base
         /// </summary>
         TYPE _baseType;
+        int currentHealth;
 
         public Character(int baseHealth, int baseAttack, int baseDefense, int baseSpeed, TYPE baseType)
         {
@@ -35,51 +37,40 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
             _baseDefense = baseDefense;
             _baseSpeed = baseSpeed;
             _baseType = baseType;
+            currentHealth = _baseHealth;
         }
         /// <summary>
         /// HP actuel du personnage
         /// </summary>
-        public int CurrentHealth { get; private set; }
-        public TYPE BaseType { get => _baseType;}
+        public int CurrentHealth { get => currentHealth; }
+        public TYPE BaseType { get => _baseType; private set => _baseType = TYPE.NORMAL; }
         /// <summary>
         /// HPMax, prendre en compte base et equipement potentiel
         /// </summary>
         public int MaxHealth
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseHealth;
         }
         /// <summary>
         /// ATK, prendre en compte base et equipement potentiel
         /// </summary>
         public int Attack
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseAttack; private set => _baseAttack = 50;
         }
         /// <summary>
         /// DEF, prendre en compte base et equipement potentiel
         /// </summary>
         public int Defense
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseDefense; private set => _baseDefense = 30;
         }
         /// <summary>
         /// SPE, prendre en compte base et equipement potentiel
         /// </summary>
         public int Speed
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get => _baseSpeed; private set => _baseSpeed = 20;
         }
         /// <summary>
         /// Equipement unique du personnage
