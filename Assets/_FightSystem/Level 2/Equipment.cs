@@ -10,10 +10,10 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
     /// </summary>
     public class Equipment
     {
-        [SerializeField]int _bonusHealth;
-        [SerializeField]int _bonusAttack;
-        [SerializeField]int _bonusDefense;
-        [SerializeField]int _bonusSpeed;
+        int _bonusHealth;
+        int _bonusAttack;
+        int _bonusDefense;
+        int _bonusSpeed;
         public Equipment(int bonusHealth, int bonusAttack, int bonusDefense, int bonusSpeed)
         {
             _bonusHealth = bonusHealth;
@@ -24,10 +24,10 @@ namespace _2023_GC_A2_Partiel_POO.Level_2
            
         }
 
-        public int BonusHealth { get => _bonusHealth; protected set => _bonusHealth = 100; }
-        public int BonusAttack { get => _bonusAttack; protected set => _bonusAttack = 90; }
-        public int BonusDefense { get => _bonusDefense; protected set => _bonusDefense = 70; }
-        public int BonusSpeed { get => _bonusSpeed; protected set => _bonusSpeed = 12; }
+        public int BonusHealth { get => _bonusHealth; protected set => _bonusHealth = value; }
+        public int BonusAttack { get => _bonusAttack; protected set => _bonusAttack = value; }
+        public int BonusDefense { get => _bonusDefense; protected set => _bonusDefense = value; }
+        public int BonusSpeed { get => _bonusSpeed; protected set => _bonusSpeed = value; }
 
     }
 }
